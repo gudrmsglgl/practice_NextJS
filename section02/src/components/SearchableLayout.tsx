@@ -26,7 +26,7 @@ export default function SearchableLayout(
     };
 
     const onSubmit = () => {
-        if (!search || query === search) return;
+        if (query === search) return;
         router.push(`/search?d=${search}`)
     };
 
