@@ -1,8 +1,19 @@
 import style from "./[bookId].module.css";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { GetStaticPropsContext, InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
 import fetchBookDetail from "@/libs/fetch-book-detail";
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+export const getStaticPaths = () => {
+    return {
+        paths: [
+            { params: { bookId: "1" } },
+            { params: { bookId: "2" } },
+            { params: { bookId: "3" } }
+        ],
+        fallback: false
+    };
+};
+
+export const getStaticProps = async (context: GetStaticPropsContext) => {
     const bookId = Number(context.params?.bookId);
     const bookDetail = await fetchBookDetail(bookId);
 
@@ -13,7 +24,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     }
 }
 
-export default function Page({ bookDetail }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Page({ bookDetail }: InferGetStaticPropsType<typeof getStaticProps>) {
 
     if (!bookDetail) {
         return <div>Book not found</div>;
