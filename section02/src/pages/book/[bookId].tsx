@@ -1,6 +1,7 @@
 import style from "./[bookId].module.css";
 import { GetStaticPropsContext, InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
 import fetchBookDetail from "@/libs/fetch-book-detail";
+import { useRouter } from "next/router";
 
 export const getStaticPaths = () => {
     return {
@@ -9,13 +10,22 @@ export const getStaticPaths = () => {
             { params: { bookId: "2" } },
             { params: { bookId: "3" } }
         ],
-        fallback: false
+        fallback: true
     };
 };
 
-export const getStaticProps = async (context: GetStaticPropsContext) => {
+export const getStaticProps = async (
+    context: GetStaticPropsContext
+) => {
     const bookId = Number(context.params?.bookId);
     const bookDetail = await fetchBookDetail(bookId);
+
+
+    if (!bookDetail) {
+        return {
+            notFound: true
+        };
+    }
 
     return {
         props: {
@@ -25,7 +35,9 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
 }
 
 export default function Page({ bookDetail }: InferGetStaticPropsType<typeof getStaticProps>) {
+    const router = useRouter();
 
+    if (router.isFallback) return <div>Loading...</div>;
     if (!bookDetail) {
         return <div>Book not found</div>;
     }
