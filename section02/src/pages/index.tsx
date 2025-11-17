@@ -16,7 +16,8 @@ export const getStaticProps = async () => {
     props: {
       allBooks,
       randomBooks,
-    }
+    },
+    revalidate: 3
   };
 }
 
