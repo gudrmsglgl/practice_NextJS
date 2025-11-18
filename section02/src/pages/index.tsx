@@ -17,15 +17,18 @@ export const getStaticProps = async () => {
       allBooks,
       randomBooks,
     },
-    revalidate: 3
   };
 }
 
 export default function Home(
   { allBooks, randomBooks }: InferGetStaticPropsType<typeof getStaticProps>
 ) {
+  const onClick = async () => {
+    await fetch("/api/revalidate");
+  }
+
   return (
-    <div className={style.container}>
+    <div onClick={() => onClick()} className={style.container}>
       <section>
         <h3>지금 추천하는 도서</h3>
         {randomBooks.map((book) => <BookItem key={book.id} {...book} />)}
