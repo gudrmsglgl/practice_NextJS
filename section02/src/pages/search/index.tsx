@@ -4,6 +4,7 @@ import BookItem from "@/components/BookItem";
 import fetchBooks from "@/libs/fetch-books";
 import { useRouter } from "next/router";
 import { BookData } from "@/types";
+import MetaHead from "@/components/MetaHead";
 
 // export const getStaticProps = async (context: GetStaticPropsContext) => {
 
@@ -40,6 +41,7 @@ export default function SearchPage() {
 
     return (
         <div>
+            <MetaHead />
             {searchBooks.map((book) => <BookItem key={book.id} {...book} />)}
         </div>
     )
