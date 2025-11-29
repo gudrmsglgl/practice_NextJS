@@ -4,7 +4,10 @@ import books from "@/mock/books.json";
 import type { BookData } from "@/types";
 
 async function Allbooks() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
+    { cache: 'no-store' }
+  );
   if (!response.ok) {
     return <div>모든 도서 조회 실패</div>;
   }
