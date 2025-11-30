@@ -1,5 +1,16 @@
+import { notFound } from "next/navigation";
 import style from "./page.module.css";
 
+//export const dynamic = 'force-static';
+export const dynamicParams = true;
+
+export function generateStaticParams() {
+  return [
+    { id: "1" },
+    { id: "2" },
+    { id: "3" },
+  ];
+}
 
 export default async function Page({
   params,
@@ -10,6 +21,10 @@ export default async function Page({
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`)
   if (!response.ok) {
+    if (response.status === 404) {
+      return notFound();
+    }
+
     return <div>도서 조회 실패</div>;
   }
 
