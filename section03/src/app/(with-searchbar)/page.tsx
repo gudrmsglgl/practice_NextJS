@@ -6,7 +6,7 @@ import type { BookData } from "@/types";
 async function Allbooks() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
-    { cache: 'no-store' }
+    { cache: "force-cache" }
   );
   if (!response.ok) {
     return <div>모든 도서 조회 실패</div>;
@@ -23,7 +23,10 @@ async function Allbooks() {
 }
 
 async function RecommandedBooks() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/random`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/random`,
+    { next: { revalidate: 3 } }
+  );
   if (!response.ok) {
     return <div>추천 도서 조회 실패</div>;
   }
