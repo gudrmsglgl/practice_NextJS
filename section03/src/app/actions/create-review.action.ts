@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
+
 export default async function createReviewAction(formData: FormData) {
     const bookId = formData.get("bookId")?.toString();
     const content = formData.get("content")?.toString();
@@ -18,6 +20,7 @@ export default async function createReviewAction(formData: FormData) {
             }
         );
         console.log(response.status)
+        revalidateTag(`review-${bookId}`);
     } catch (err) {
         console.error(err);
     }
