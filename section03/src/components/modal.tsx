@@ -12,6 +12,8 @@ export default function Modal(
     const router = useRouter();
 
     useEffect(() => {
+        window.history.scrollRestoration = 'manual'
+
         const prev = document.body.style.overflow;
         document.body.style.overflow = "hidden";
         if (!dialogRef.current?.open) {
