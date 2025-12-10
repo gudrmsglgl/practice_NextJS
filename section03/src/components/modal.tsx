@@ -12,18 +12,31 @@ export default function Modal(
     const router = useRouter();
 
     useEffect(() => {
+        const prev = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
         if (!dialogRef.current?.open) {
             dialogRef.current?.showModal();
             dialogRef.current?.scrollTo({
                 top: 0,
             })
         }
+        return () => {
+            document.body.style.overflow = prev;
+        }
     }, [])
     return createPortal(
         <dialog
             onClick={(e) => {
-                if ((e.target as HTMLElement).nodeName === "DIALOG") {
+                const target = e.target as HTMLElement;
+                if (target.closest("button")) {
+                    return;
+                }
+
+                if (target.nodeName === "DIALOG") {
                     router.back();
+                } else {
+                    window.history.scrollRestoration = 'manual'
+                    window.location.reload();
                 }
             }}
             onClose={() => router.back()}
