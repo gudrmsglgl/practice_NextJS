@@ -5,16 +5,20 @@ import ReviewEditor from "@/components/review-editor";
 import Reviewitem from "@/components/review-item";
 import { ReviewData } from "@/types";
 import Image from "next/image";
+import { BookData } from "@/types";
+import { Metadata } from "next";
 
 //export const dynamic = 'force-static';
 export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return [
-    { id: "1" },
-    { id: "2" },
-    { id: "3" },
-  ];
+export async function generateStaticParams() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`);
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  const books: BookData[] = await response.json();
+  return books.map((book) => ({ id: book.id.toString() }));
 }
 
 async function BookDetail({ id }: { id: string }) {
@@ -65,7 +69,7 @@ async function ReviewList({ bookId }: { bookId: string }) {
 
 export async function generateMetadata(
   { params }: { params: Promise<{ id: string }> }
-) {
+): Promise<Metadata> {
   const { id } = await params;
 
   const response = await fetch(
@@ -77,7 +81,7 @@ export async function generateMetadata(
     if (response.status === 404) {
       return notFound();
     }
-    return <div>오류가 발생했습니다...</div>
+    throw new Error(`Metadata fetch failed: ${response.statusText}`);
   }
 
   const book = await response.json();

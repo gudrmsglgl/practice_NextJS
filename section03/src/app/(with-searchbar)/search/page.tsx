@@ -1,13 +1,10 @@
 import BookItem from "@/components/book-item";
 import { Suspense } from "react";
 import type { BookData } from "@/types";
-import delay from "@/util/delay";
 import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 import { Metadata } from "next";
 
 async function SearchBooks({ q }: { q: string }) {
-  await delay(2000);
-
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/search?q=${q}`,
     { cache: "force-cache" }
@@ -31,12 +28,14 @@ export async function generateMetadata(
   { searchParams }: { searchParams: Promise<{ q?: string }> }
 ): Promise<Metadata> {
   const { q } = await searchParams;
+  const query = q || "";
+
   return {
-    title: `${q} : 한입북스 검색`,
-    description: `${q}의 검색 결과입니다`,
+    title: `${query} : 한입북스 검색`,
+    description: `${query}의 검색 결과입니다`,
     openGraph: {
-      title: `${q} : 한입북스 검색`,
-      description: `${q}의 검색 결과입니다`,
+      title: `${query} : 한입북스 검색`,
+      description: `${query}의 검색 결과입니다`,
       images: ["/thumbnail.png"],
     },
   };
