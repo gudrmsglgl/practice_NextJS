@@ -1,7 +1,6 @@
 import BookItem from "@/components/book-item";
 import style from "./page.module.css";
 import type { BookData } from "@/types";
-import delay from "@/util/delay";
 import { Metadata } from "next";
 
 
@@ -16,7 +15,6 @@ export const metadata: Metadata = {
 }
 
 async function Allbooks() {
-  await delay(2000);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
     { cache: "force-cache" }

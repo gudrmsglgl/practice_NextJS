@@ -9,6 +9,7 @@ export default function Modal(
     { children }: { children: ReactNode }
 ) {
     const dialogRef = useRef<HTMLDialogElement>(null);
+    const focusSinkRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -18,6 +19,11 @@ export default function Modal(
         document.body.style.overflow = "hidden";
         if (!dialogRef.current?.open) {
             dialogRef.current?.showModal();
+
+            requestAnimationFrame(() => {
+                focusSinkRef.current?.focus({ preventScroll: true });
+            });
+
             dialogRef.current?.scrollTo({
                 top: 0,
             })
@@ -43,7 +49,21 @@ export default function Modal(
             }}
             onClose={() => router.back()}
             className={style.modal}
-            ref={dialogRef}>{children}
+            ref={dialogRef}>
+            <div
+                ref={focusSinkRef}
+                tabIndex={-1}
+                aria-hidden="true"
+                style={{
+                    position: "fixed",
+                    width: 1,
+                    height: 1,
+                    overflow: "hidden",
+                    opacity: 0,
+                    pointerEvents: "none",
+                }}
+            />
+            {children}
         </dialog>,
         document.getElementById("modal-root") as HTMLElement
     )
