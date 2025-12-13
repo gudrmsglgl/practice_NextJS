@@ -1,0 +1,82 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 100%;
+  height: 100vh;
+}
+
+.container>section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cover_img_skeleton {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+}
+
+.img_placeholder {
+  width: 240px;
+  height: 300px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 5px;
+}
+
+.skeleton_text {
+  height: 20px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.title {
+  width: 60%;
+  height: 24px;
+}
+
+.subTitle {
+  width: 40%;
+  height: 18px;
+}
+
+.author {
+  width: 30%;
+  height: 16px;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: rgb(245, 245, 245);
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.description .skeleton_text {
+  width: 100%;
+  height: 16px;
+}
+
+.short {
+  width: 70%;
+}
+
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}

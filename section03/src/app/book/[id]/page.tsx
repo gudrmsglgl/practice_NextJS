@@ -22,7 +22,10 @@ export async function generateStaticParams() {
 }
 
 async function BookDetail({ id }: { id: string }) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`)
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`,
+    { cache: "force-cache" }
+  )
   if (!response.ok) {
     if (response.status === 404) {
       return notFound();
