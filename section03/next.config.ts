@@ -8,7 +8,13 @@ const nextConfig: NextConfig = {
     fetches: {
       fullUrl: true,
     },
-  }
+  },
+  experimental: {
+    staleTimes: {
+      dynamic: 0,
+      static: 0,
+    },
+  },
 };
 
 export default nextConfig;

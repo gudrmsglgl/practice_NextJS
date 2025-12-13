@@ -43,8 +43,7 @@ export default function Modal(
                 if (target.nodeName === "DIALOG") {
                     router.back();
                 } else {
-                    window.history.scrollRestoration = 'manual'
-                    window.location.reload();
+                    window.location.href = window.location.pathname;
                 }
             }}
             onClose={() => router.back()}
